@@ -8,6 +8,7 @@ import History from './pages/History';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NavigationLanding from './components/NavigationLanding';
+import GDPRTerms from './pages/gdpr-terms';
 import Footer from './components/Footer';
 
 function Page() {
@@ -23,6 +24,7 @@ function Page() {
             <Route path="/history" element={<History />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/gdpr-terms" element={<GDPRTerms />} />
           </Routes>
         </div>
         <Footer />
