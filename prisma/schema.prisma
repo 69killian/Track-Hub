@@ -1,0 +1,36 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String  @id @default(uuid())
+  username  String  @unique
+  email     String  @unique
+  password  String?
+  githubId  String? @unique
+  habits    Habit[]
+}
+
+model Habit {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  name      String
+  frequency String
+  goal      String
+  progress  Progress[]
+}
+
+model Progress {
+  id        String   @id @default(uuid())
+  habit     Habit    @relation(fields: [habitId], references: [id])
+  habitId   String
+  date      DateTime @default(now())
+  completed Boolean  @default(false)
+}
