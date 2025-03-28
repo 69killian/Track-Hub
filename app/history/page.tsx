@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { Calendar, BarChart2 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { supabase } from '../lib/supabase';
+import Navigation from '../components/Navigation';
+import { useSession} from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 interface HabitProgress {
   date: string;
@@ -12,6 +15,15 @@ interface HabitProgress {
 
 function History() {
   const [progressData, setProgressData] = useState<HabitProgress[]>([]);
+  const { status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+      if (status === 'unauthenticated') {
+        router.push('/');
+      }
+    }, [status, router]);
+  
 
   useEffect(() => {
     fetchProgressData();
@@ -54,10 +66,14 @@ function History() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <>
+    <div className='absolute top-0 w-full'>
+          <Navigation/>
+      </div>
+    <div className="bg-gray-50 min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-30">
       <div className="md:flex md:items-center md:justify-between mb-8">
         <div className="flex-1 min-w-0">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+          <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl sm:truncate">
             Your Progress History
           </h2>
         </div>
@@ -123,6 +139,7 @@ function History() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

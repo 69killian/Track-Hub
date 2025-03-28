@@ -1,30 +1,30 @@
-"use client";
+"use client"
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Remplace useNavigate
-import { LogIn, Github, Activity, } from 'lucide-react';
+import { UserPlus, Activity, Github } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import Link from 'next/link';
+import Navigation from '../components/Navigation';
+import { signIn } from 'next-auth/react';
 
-function Login() {
-  const router = useRouter();
-
+function Register() {
+   const [consent, setConsent] = useState(false); // State for GDPR consent
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    confirmPassword: '',
   });
   const [error, setError] = useState('');
-  const [consent, setConsent] = useState(false); // State for GDPR consent
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    if (!consent) {
-      setError('You must agree to the terms to proceed.');
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
       return;
     }
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signUp({
       email: formData.email,
       password: formData.password,
     });
@@ -38,30 +38,24 @@ function Login() {
   };
 
   const handleGitHubLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'github',
-    });
-
-    if (error) {
-      setError(error.message);
-      return;
-    }
-
-    router.push('/dashboard');
+    await signIn('github', { callbackUrl: '/dashboard' });
   };
-
   
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <>
+     <div className='absolute top-0 w-full'>
+        <Navigation/>
+     </div>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900 flex-cols-2 justify-center items-center">
+        <h2 className="mt-6 text-3xl font-extrabold text-gray-900 flex-cols-2 justify-center items-center">
             <Link href="/" className="flex items-center">
                 <Activity className="h-8 w-8 text-indigo-600" />
                 <span className="ml-2 text-xl font-bold text-gray-800">TrackHub</span>
               </Link>
-            Sign in to your account
+            Create your account
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -70,9 +64,8 @@ function Login() {
               <span className="block sm:inline">{error}</span>
             </div>
           )}
-
           <div className="rounded-md -space-y-px">
-            <div className="mb-4">
+            <div className='mb-4'>
               <label htmlFor="email-address" className="sr-only">
                 Email address
               </label>
@@ -88,8 +81,7 @@ function Login() {
                 placeholder="Email address"
               />
             </div>
-
-            <div className="mb-4">
+            <div className='mb-4'>
               <label htmlFor="password" className="sr-only">
                 Password
               </label>
@@ -105,22 +97,37 @@ function Login() {
                 placeholder="Password"
               />
             </div>
-          </div>
-
-          {/* GDPR consent */}
-          <div className="mb-4">
-            <label className="inline-flex items-center">
+            <div className='mb-4'>
+              <label htmlFor="confirm-password" className="sr-only">
+                Confirm Password
+              </label>
               <input
-                type="checkbox"
+                id="confirm-password"
+                name="confirm-password"
+                type="password"
+                autoComplete="new-password"
                 required
-                checked={consent}
-                onChange={(e) => setConsent(e.target.checked)}
-                className="form-checkbox text-indigo-600"
+                value={formData.confirmPassword}
+                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                className="shadow-sm appearance-none rounded-md relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="Confirm Password"
               />
-              <span className="ml-2 text-sm text-gray-600">
-                I agree to the <Link href="/gdpr-terms" className="text-indigo-600 hover:text-indigo-500">GDPR terms</Link>
-              </span>
-            </label>
+            </div>
+            {/* GDPR consent */}
+            <div className="mb-4">
+              <label className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  required
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  className="form-checkbox text-indigo-600"
+                />
+                <span className="ml-2 text-sm text-gray-600">
+                  I agree to the <Link href="/gdpr-terms" className="text-indigo-600 hover:text-indigo-500">GDPR terms</Link>
+                </span>
+              </label>
+              </div>
           </div>
 
           <div>
@@ -130,9 +137,9 @@ function Login() {
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <LogIn className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" />
+                <UserPlus className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" />
               </span>
-              Sign in
+              Sign up
             </button>
           </div>
 
@@ -146,13 +153,14 @@ function Login() {
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                 <Github className="h-5 w-5 text-gray-400 group-hover:text-gray-300" />
               </span>
-              Connect with GitHub
+              Register with GitHub
             </button>
           </div>
         </form>
       </div>
     </div>
+    </>
   );
 }
 
-export default Login;
+export default Register;
