@@ -9,12 +9,14 @@ generator client {
 }
 
 model User {
-  id        String  @id @default(uuid())
-  username  String  @unique
-  email     String  @unique
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String   @unique
   password  String?
-  githubId  String? @unique
+  githubId  String?  @unique
   habits    Habit[]
+  createdAt DateTime @default(now())  // Timestamp de création
+  updatedAt DateTime @updatedAt     // Timestamp de dernière mise à jour
 }
 
 model Habit {
@@ -25,6 +27,8 @@ model Habit {
   frequency String
   goal      String
   progress  Progress[]
+  createdAt DateTime @default(now())  // Timestamp de création
+  updatedAt DateTime @updatedAt     // Timestamp de dernière mise à jour
 }
 
 model Progress {
@@ -33,4 +37,6 @@ model Progress {
   habitId   String
   date      DateTime @default(now())
   completed Boolean  @default(false)
+  createdAt DateTime @default(now())  // Timestamp de création
+  updatedAt DateTime @updatedAt     // Timestamp de dernière mise à jour
 }

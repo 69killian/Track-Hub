@@ -1,40 +1,50 @@
 "use client"
 import React, { useState } from 'react';
 import { UserPlus, Activity, Github } from 'lucide-react';
-import { supabase } from '../lib/supabase';
 import Link from 'next/link';
 import Navigation from '../components/Navigation';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 function Register() {
-   const [consent, setConsent] = useState(false); // State for GDPR consent
+  const router = useRouter();
+  const [consent, setConsent] = useState(false);
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
+    // Block the refresh of the page
     e.preventDefault();
-    setError('');
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
-      email: formData.email,
-      password: formData.password,
-    });
+    const response = await fetch("/api/auth/user", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password
+      })
+    })
+    
 
-    if (error) {
-      setError(error.message);
-      return;
+    if (response.ok) {
+      router.push('/dashboard');
+    } else {
+      setError("Registration failed.");
     }
-
-    router.push('/dashboard');
+    
   };
 
   const handleGitHubLogin = async () => {
@@ -65,6 +75,22 @@ function Register() {
             </div>
           )}
           <div className="rounded-md -space-y-px">
+          <div className='mb-4'>
+            <label htmlFor="username" className="sr-only">
+              Username
+            </label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              autoComplete="username"
+              required
+              value={formData.username}
+              onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+              className="shadow-sm appearance-none rounded-md relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              placeholder="Username"
+            />
+          </div>
             <div className='mb-4'>
               <label htmlFor="email-address" className="sr-only">
                 Email address
