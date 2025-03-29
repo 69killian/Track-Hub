@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { LogIn, Github, Activity } from 'lucide-react';
-import { supabase } from '../lib/supabase';
 import Link from 'next/link';
 import Navigation from '../components/Navigation';
 import { signIn } from 'next-auth/react';
@@ -21,30 +20,23 @@ function Login() {
     const response = await signIn('github');
     
     if (response?.ok) {
-      router.push('/dashboard');
+      router.push('/history');
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    // Block the refresh of the page
     e.preventDefault();
-    setError('');
-
-    if (!consent) {
-      setError('You must agree to the terms to proceed.');
-      return;
-    }
-
-    const { error } = await supabase.auth.signInWithPassword({
+    
+    const logInData = await signIn('credentials', {
       email: formData.email,
       password: formData.password,
     });
 
-    if (error) {
-      setError(error.message);
-      return;
+    if (logInData?.error) {
+      setError(logInData.error);
     }
-
-    router.push('/dashboard'); // Redirection après connexion
+    
   };
 
   return (

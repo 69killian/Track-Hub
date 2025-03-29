@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 
 function HabitForm() {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   
   useEffect(() => {
@@ -49,7 +49,7 @@ function HabitForm() {
      </div>
     <div className="h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
       <div className="bg-white shadow sm:rounded-lg p-6 w-full max-w-lg">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Create New Habit</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Create New Habit for {session?.user.username}</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">

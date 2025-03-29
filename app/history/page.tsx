@@ -15,7 +15,7 @@ interface HabitProgress {
 
 function History() {
   const [progressData, setProgressData] = useState<HabitProgress[]>([]);
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -74,7 +74,7 @@ function History() {
       <div className="md:flex md:items-center md:justify-between mb-8">
         <div className="flex-1 min-w-0">
           <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl sm:truncate">
-            Your Progress History
+            {session?.user.username}&rsquo;s Progress History
           </h2>
         </div>
       </div>
@@ -110,7 +110,7 @@ function History() {
             <div className="bg-indigo-50 p-4 rounded-lg">
               <div className="flex items-center">
                 <BarChart2 className="h-5 w-5 text-indigo-500 mr-2" />
-                <span className="text-sm font-medium text-indigo-900">Current Streak</span>
+                <span className="text-sm font-medium text-indigo-900">Current Streak of {session?.user.username}</span>
               </div>
               <p className="mt-2 text-2xl font-bold text-indigo-900">
                 {progressData[progressData.length - 1]?.completed || 0} days

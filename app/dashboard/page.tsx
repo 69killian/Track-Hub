@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import { useSession, } from 'next-auth/react';
+import { useSession} from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { BarChart2, CheckCircle, XCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -22,10 +22,11 @@ interface Progress {
 }
 
 function Dashboard() {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [habits, setHabits] = useState<Habit[]>([]);
   const [todayProgress, setTodayProgress] = useState<Record<string, boolean>>({});
+
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -107,6 +108,9 @@ function Dashboard() {
       <div className="min-h-screen bg-gray-50 mx-auto px-4 sm:px-6 lg:px-8 py-30">
         <div className="md:flex md:items-center md:justify-between mb-8">
           <div className="flex-1 min-w-0">
+          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+              Welcome {session?.user.username} !
+            </h2>
             <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
               Your Habits Dashboard
             </h2>
