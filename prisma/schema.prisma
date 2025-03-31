@@ -26,6 +26,7 @@ model Habit {
   name      String
   frequency String
   goal      String
+  streak    Int      @default(0)  // Initialisé à 0
   progress  Progress[]
   createdAt DateTime @default(now())  // Timestamp de création
   updatedAt DateTime @updatedAt     // Timestamp de dernière mise à jour

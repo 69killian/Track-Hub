@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Calendar, BarChart2 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { supabase } from '../lib/supabase';
-import Navigation from '../components/Navigation';
+import NavigationWhite from '../components/NavigationWhite';
 import { useSession} from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
@@ -68,7 +68,7 @@ function History() {
   return (
     <>
     <div className='absolute top-0 w-full'>
-          <Navigation/>
+          <NavigationWhite/>
       </div>
     <div className="bg-gray-50 min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-30">
       <div className="md:flex md:items-center md:justify-between mb-8">

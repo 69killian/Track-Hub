@@ -4,14 +4,14 @@ import { useSession} from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { BarChart2, CheckCircle, XCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
-import Navigation from '../components/Navigation';
+import NavigationWhite from '../components/NavigationWhite';
 
 interface Habit {
   id: string;
   name: string;
   frequency: string;
   goal: string;
-  streak: number;
+  streak: int;
 }
 
 interface Progress {
@@ -116,7 +116,7 @@ function Dashboard() {
   return (
     <>
       <div className='absolute top-0 w-full'>
-        <Navigation />
+        <NavigationWhite />
       </div>
       <div className="min-h-screen bg-gray-50 mx-auto px-4 sm:px-6 lg:px-8 py-30">
         <div className="md:flex md:items-center md:justify-between mb-8">
@@ -155,7 +155,7 @@ function Dashboard() {
                       <div className="flex items-center bg-indigo-100 px-3 py-1 rounded-full">
                         <BarChart2 className="h-4 w-4 text-indigo-500 mr-1" />
                         <span className="text-sm font-medium text-indigo-800">
-                          {habit.streak} day streak
+                          {habit?.streak} day streak
                         </span>
                       </div>
                     </div>

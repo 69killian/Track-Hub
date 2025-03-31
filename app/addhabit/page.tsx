@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import Navigation from '../components/Navigation';
+import NavigationWhite from '../components/NavigationWhite';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 
@@ -73,7 +73,7 @@ function HabitForm() {
   return (
     <>
     <div className='absolute top-0 w-full'>
-        <Navigation/>
+        <NavigationWhite/>
      </div>
     <div className="h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
       <div className="bg-white shadow sm:rounded-lg p-6 w-full max-w-lg">
@@ -106,6 +106,7 @@ function HabitForm() {
               onChange={(e) => setFormData({ ...formData, frequency: e.target.value })}
               className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3 text-lg text-gray-900"
             >
+              <option value="">Chose a Day</option>
               <option value="daily">Daily</option>
               <option value="weekly">Weekly</option>
               <option value="monthly">Monthly</option>

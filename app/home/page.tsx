@@ -32,10 +32,10 @@ function Home() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 ">
       <div className="text-center">
         <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-          <span className="block">Track Your Habits,</span>
-          <span className="block text-indigo-600">Achieve Your Goals</span>
+          <span className="block text-white">Track Your Habits,</span>
+          <span className="block text-violet-900">Achieve Your Goals</span>
         </h1>
-        <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+        <p className="mt-3 max-w-md mx-auto text-base text-white/50 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
           Build better habits, track your progress, and achieve your personal goals with our simple but powerful habit tracking system.
         </p>
         <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
@@ -118,10 +118,10 @@ export default Home;
 
 function ReviewMarquee() {
   return (
-    <div className="py-20 pb-0 bg-gray-50">
+    <div className="py-20 pb-0">
       <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-5xl">
-          <span className="block">This is What they say</span>
-          <span className="block text-indigo-600">About TrackHub</span>
+          <span className="block text-white">This is What they say</span>
+          <span className="block text-violet-600">About TrackHub</span>
         </h1>
       <Marquee gradient={false} speed={50} className='h-[250px]'>
         {reviews.map((review, index) => (
