@@ -42,18 +42,31 @@ function Dashboard() {
   }, [status]);
 
   const fetchHabits = async () => {
-    const { data, error } = await supabase
-      .from('habits')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Error fetching habits:', error);
+    if (!session?.user?.id) {
+      console.error("User not authenticated");
       return;
     }
-
-    setHabits(data || []);
+  
+    try {
+      const response = await fetch(`/api/dashboard/${session?.user?.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+  
+      if (!response.ok) {
+        console.error('Error fetching habits:', await response.text());
+        return;
+      }
+  
+      const data = await response.json();
+      setHabits(data); // ✅ Stocke les habitudes dans ton état
+    } catch (error) {
+      console.error("Network error:", error);
+    }
   };
+  
 
   const fetchTodayProgress = async () => {
     const today = new Date().toISOString().split('T')[0];
@@ -108,11 +121,8 @@ function Dashboard() {
       <div className="min-h-screen bg-gray-50 mx-auto px-4 sm:px-6 lg:px-8 py-30">
         <div className="md:flex md:items-center md:justify-between mb-8">
           <div className="flex-1 min-w-0">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-              Welcome {session?.user.username} !
-            </h2>
             <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-              Your Habits Dashboard
+            {session?.user.username}&apos;s Habits Dashboard
             </h2>
           </div>
         </div>

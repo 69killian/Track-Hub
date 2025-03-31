@@ -40,15 +40,15 @@ function Register() {
     
 
     if (response.ok) {
-      router.push('/dashboard');
+      router.push('/register');
     } else {
       setError("Registration failed.");
     }
     
   };
 
-  const handleGitHubLogin = async () => {
-    await signIn('github', { callbackUrl: '/dashboard' });
+  const handleGitHubRegister = async () => {
+    await signIn('github', { callbackUrl: '/register' });
   };
   
 
@@ -173,7 +173,7 @@ function Register() {
           <div className="mt-4 text-center">
             <button
               type="button"
-              onClick={handleGitHubLogin}
+              onClick={handleGitHubRegister}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">

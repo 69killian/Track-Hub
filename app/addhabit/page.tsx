@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from 'react';
 import { Plus } from 'lucide-react';
-import { supabase } from '../lib/supabase';
 import { useRouter } from 'next/navigation';
 import Navigation from '../components/Navigation';
 import { useSession } from 'next-auth/react';
@@ -17,29 +16,58 @@ function HabitForm() {
       }
     }, [status, router]);
 
+    useEffect(() => {
+      if (session?.user?.id) {
+        setFormData((prev) => ({ ...prev, userId: session.user.id }));
+      }
+    }, [session]);
+    
+
   const [formData, setFormData] = useState({
+    userId: session?.user?.id,
     name: '',
-    frequency: 'daily',
+    frequency: '',
     goal: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { error } = await supabase.from('habits').insert([
-      {
-        name: formData.name,
-        frequency: formData.frequency,
-        goal: formData.goal,
-      },
-    ]);
-
-    if (error) {
-      console.error('Error creating habit:', error);
+    if (!session?.user?.id) {
+      console.error("User not authenticated");
+      return;
+    }
+  
+    if (!formData.name.trim() || !formData.frequency || !formData.goal.trim()) {
+      console.error("All fields are required");
       return;
     }
 
-    router.push('/dashboard');
+    try {
+    const response = await fetch("/api/habits", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: session?.user?.id,
+        name: formData.name.trim(),
+        frequency: formData.frequency,
+        goal: formData.goal.trim(),
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Error creating habit:", errorData.message || "Unknown error");
+      return;
+    }
+
+    console.log("Habit successfully created");
+    router.push("/dashboard");
+  } catch (error) {
+    console.error("Network error:", error);
+  }
   };
 
   return (
@@ -49,7 +77,7 @@ function HabitForm() {
      </div>
     <div className="h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
       <div className="bg-white shadow sm:rounded-lg p-6 w-full max-w-lg">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Create New Habit for {session?.user.username}</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Create New Habit for {session?.user?.username}</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">

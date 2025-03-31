@@ -30,6 +30,7 @@ export async function POST(req: Request) {
                 password: hashedPassword
             }
         });
+        // eslint-disable-next-line
         const { password: newUserPassword, ...rest } = newUser;
 
 
