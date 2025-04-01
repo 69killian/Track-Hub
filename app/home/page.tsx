@@ -39,22 +39,14 @@ function Home() {
           Build better habits, track your progress, and achieve your personal goals with our simple but powerful habit tracking system.
         </p>
         <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-          <div className="rounded-md shadow">
-            <Link
-              href="/register"
-              className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-            >
-              Get Started
-            </Link>
-          </div>
-          <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-            <Link
-              href="/login"
-              className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
-            >
-              Login
-            </Link>
-          </div>
+        <div className="">
+        <Link
+          href="/register"
+          className="tracking-tight font-extrabold relative z-10 block w-full py-4 px-20 bg-gray-800 hover:bg-gray-800/90 text-center transition-colors duration-200 rounded-[10px] p-1 shadow-md shadow-[#101010] border-t-2 border-indigo-300/10"
+        >
+          Get Started
+        </Link>
+      </div>
         </div>
       </div>
 
