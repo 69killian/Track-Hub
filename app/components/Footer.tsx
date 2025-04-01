@@ -1,6 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { Facebook, X, Instagram, Activity } from 'lucide-react';
+import { Bricolage_Grotesque } from "next/font/google";
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 const Footer = () => {
   return (
@@ -9,7 +15,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center border-b pb-6">
             <Link href="/" className="flex items-center">
                 <Activity className="h-8 w-8 text-indigo-600" />
-                <span className="ml-2 text-xl font-bold text-white">TrackHub</span>
+                <span className={`${bricolage.className} ml-2 text-xl font-bold text-white`}>TrackHub</span>
             </Link>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link href="/privacy-policy" className="text-white/50 hover:text-indigo-600 text-sm">Privacy Policy</Link>

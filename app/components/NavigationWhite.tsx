@@ -4,6 +4,12 @@ import React from "react";
 import Link from "next/link";
 import { Activity, BarChart2, Calendar, Plus, Home } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
+import { Bricolage_Grotesque } from "next/font/google";
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 function Navigation() {
   const { data: session } = useSession();
@@ -19,7 +25,7 @@ function Navigation() {
           <div className="flex">
             <Link href="/" className="flex items-center">
               <Activity className="h-8 w-8 text-indigo-600" />
-              <span className="ml-2 text-xl font-bold text-black">TrackHub</span>
+              <span className={`${bricolage.className} ml-2 text-xl font-bold text-black`}>TrackHub</span>
             </Link>
           </div>
 
@@ -59,12 +65,12 @@ function Navigation() {
           <div className="flex items-center space-x-4">
             {!session?.user ? ( 
               <>
-                <Link href="/login" className="text-gray-500 hover:text-indigo-600 px-3 py-2 text-sm font-medium">
+                <Link href="/login" className={`${bricolage.className} text-[16px] text-gray-800 px-4 py-2  text-sm font-medium hover:text-black`}>
                   Login
                 </Link>
                 <Link
                   href="/register"
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"
+                  className={`${bricolage.className} bg-indigo-600 text-[16px] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700`}
                 >
                   Register
                 </Link>
@@ -72,7 +78,7 @@ function Navigation() {
             ) : (
               <button
                 onClick={handleSignOut}
-                className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"
+                className={`${bricolage.className} bg-indigo-600 text-[16px] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700`}
               >
                 Sign out
               </button>
