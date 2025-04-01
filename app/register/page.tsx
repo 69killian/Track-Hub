@@ -40,7 +40,7 @@ function Register() {
     
 
     if (response.ok) {
-      router.push('/register');
+      router.push('/');
     } else {
       setError("Registration failed.");
     }

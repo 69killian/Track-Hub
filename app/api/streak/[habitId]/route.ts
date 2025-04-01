@@ -21,6 +21,12 @@ export async function POST(req: Request, { params }: { params: { habitId: string
             return NextResponse.json({ message: "Habit not found" }, { status: 404 });
         }
 
+        // Vérifier que habit.streak est bien un entier (par défaut en Prisma, c'est un `Int`)
+        if (typeof habit.streak !== "number" || !Number.isInteger(habit.streak)) {
+            console.error("Invalid streak value:", habit.streak);
+            return NextResponse.json({ message: "Invalid streak value" }, { status: 400 });
+        }
+
         // Incrémenter la streak de 1 (en s'assurant que c'est un entier)
         const updatedHabit = await db.habit.update({
             where: { id: habitId },

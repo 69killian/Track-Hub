@@ -75,31 +75,32 @@ function Dashboard() {
 
   const fetchTodayProgress = async () => {
     console.log("Fetching progress for user:", session?.user?.id); // ✅ Debug
-  
+
     try {
-      const response = await fetch(`/api/progresses/${session?.user?.id}`);
-      if (!response.ok) throw new Error("Failed to fetch progress");
-  
-      const data = await response.json();
-      console.log("Fetched progress:", data); // ✅ Debug
-  
-      const progressMap = (data || []).reduce((acc: Record<string, boolean>, curr: Progress) => {
-        acc[curr.habitId] = curr.completed;
-        return acc;
-      }, {});
-  
-      setTodayProgress(progressMap);
-  
-      // Calcul du nombre de progrès
-      const progressCount = Object.keys(progressMap).length;
-  
-      // Met à jour l'état pour afficher dans le JSX
-      setProgressCount(progressCount); // Si tu utilises un état pour ça
+        const response = await fetch(`/api/progresses/${session?.user?.id}`);
+        if (!response.ok) throw new Error("Failed to fetch progress");
+
+        const data = await response.json();
+        console.log("Fetched progress:", data); // ✅ Debug
+
+        // Calculer le nombre de progrès pour chaque habitude
+        const progressMap: Record<string, number> = habits.reduce((acc, habit) => {
+            acc[habit.id] = 0; // Initialiser chaque habitude avec 0
+            return acc;
+        }, {});
+
+        // Maintenant, on compte les progrès réalisés pour chaque habitude
+        data.forEach((progress: Progress) => {
+            if (progress.completed) {
+                progressMap[progress.habitId] = (progressMap[progress.habitId] || 0) + 1;
+            }
+        });
+
+        setTodayProgress(progressMap); // Stocker les résultats dans l'état
     } catch (error) {
-      console.error("Error fetching progress:", error);
+        console.error("Error fetching progress:", error);
     }
-  };
-  const [progressCount, setProgressCount] = useState<number>(0);
+};
 
   
   
@@ -131,24 +132,6 @@ function Dashboard() {
         const data = await response.json();
         console.log("Progress updated:", data);
 
-        // Si l'habitude a été complétée, incrémenter la streak
-        if (isCompleted) {
-            const streakResponse = await fetch(`/api/streak/${habitId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-
-            if (!streakResponse.ok) {
-                const errorData = await streakResponse.json();
-                throw new Error(errorData.message || "Failed to update streak");
-            }
-
-            const streakData = await streakResponse.json();
-            console.log("Streak updated:", streakData);
-        }
-
         setTodayProgress(prev => ({
             ...prev,
             [habitId]: isCompleted
@@ -178,44 +161,45 @@ function Dashboard() {
 
         <div className="bg-white shadow overflow-hidden sm:rounded-md">
           <ul className="divide-y divide-gray-200">
-            {habits.length === 0 ? (
-              <p className="p-4 text-gray-500">No habits found.</p>
-            ) : (
-              habits.map((habit) => (
-                <li key={habit.id}>
-                  <div className="px-4 py-4 sm:px-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <button
-                          onClick={() => toggleHabitCompletion(habit.id)}
-                          className="mr-4 focus:outline-none"
-                        >
-                          {todayProgress[habit.id] ? (
-                            <CheckCircle className="h-6 w-6 text-green-500" />
-                          ) : (
-                            <XCircle className="h-6 w-6 text-gray-300 hover:text-gray-400" />
-                          )}
-                        </button>
-                        <div>
-                          <h3 className="text-lg font-medium text-gray-900">{habit.name}</h3>
-                          <p className="text-sm text-gray-500">
-                            {habit.frequency} • Goal : {habit.goal}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="flex items-center bg-indigo-100 px-3 py-1 rounded-full">
-                          <BarChart2 className="h-4 w-4 text-indigo-500 mr-1" />
-                        <span className="text-sm font-medium text-indigo-800">
-                          Made : {progressCount} time
-                        </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              ))
-            )}
+          {habits.length === 0 ? (
+  <p className="p-4 text-gray-500">No habits found.</p>
+) : (
+  habits.map((habit) => (
+    <li key={habit.id}>
+      <div className="px-4 py-4 sm:px-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <button
+              onClick={() => toggleHabitCompletion(habit.id)}
+              className="mr-4 focus:outline-none"
+            >
+              {todayProgress[habit.id] ? (
+                <CheckCircle className="h-6 w-6 text-green-500" />
+              ) : (
+                <XCircle className="h-6 w-6 text-gray-300 hover:text-gray-400" />
+              )}
+            </button>
+            <div>
+              <h3 className="text-lg font-medium text-gray-900">{habit.name}</h3>
+              <p className="text-sm text-gray-500">
+                {habit.frequency} • Goal : {habit.goal}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center">
+            <div className="flex items-center bg-indigo-100 px-3 py-1 rounded-full">
+              <BarChart2 className="h-4 w-4 text-indigo-500 mr-1" />
+              <span className="text-sm font-medium text-indigo-800">
+                Completed : {todayProgress[habit.id] || 0} times
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  ))
+)}
+
           </ul>
         </div>
       </div>
