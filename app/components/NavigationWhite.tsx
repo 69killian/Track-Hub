@@ -33,28 +33,28 @@ function Navigation() {
             <div className="flex space-x-4">
               <Link
                 href="/"
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600"
+                className={`${bricolage.className} inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600`}
               >
                 <Home className="h-5 w-5 mr-1" />
                 Home
               </Link>
               <Link
                 href="/dashboard"
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600"
+                className={`${bricolage.className} inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600`}
               >
                 <BarChart2 className="h-5 w-5 mr-1" />
                 Dashboard
               </Link>
               <Link
                 href="/addhabit"
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600"
+                className={`${bricolage.className} inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600`}
               >
                 <Plus className="h-5 w-5 mr-1" />
                 Add Habit
               </Link>
               <Link
                 href="/history"
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600"
+                className={`${bricolage.className} inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600`}
               >
                 <Calendar className="h-5 w-5 mr-1" />
                 History

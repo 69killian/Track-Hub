@@ -5,6 +5,12 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import NavigationWhite from '../components/NavigationWhite';
+import { Bricolage_Grotesque } from "next/font/google";
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 interface HabitProgress {
   date: string;
@@ -113,7 +119,7 @@ function History() {
       <div className="bg-gray-50 min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-30">
         <div className="md:flex md:items-center md:justify-between mb-8">
           <div className="flex-1 min-w-0">
-            <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl sm:truncate">
+            <h2 className={`${bricolage.className} text-2xl font-bold text-gray-900 sm:text-3xl sm:truncate`}>
               {session?.user.username}&rsquo;s Progress History
             </h2>
           </div>
@@ -150,9 +156,9 @@ function History() {
               <div className="bg-indigo-50 p-4 rounded-lg">
                 <div className="flex items-center">
                   <BarChart2 className="h-5 w-5 text-indigo-500 mr-2" />
-                  <span className="text-sm font-medium text-indigo-900">Current Streak of {session?.user.username}</span>
+                  <span className={`${bricolage.className} text-sm font-medium text-indigo-900 text-[20px]`}>Current Streak of {session?.user.username}</span>
                 </div>
-              <p className="mt-2 text-2xl font-bold text-indigo-900">
+                <p className={`${bricolage.className} mt-2 text-2xl font-bold text-indigo-900`}>
                 {calculateStreak()} days
               </p>
 
@@ -160,19 +166,19 @@ function History() {
               <div className="bg-green-50 p-4 rounded-lg">
                 <div className="flex items-center">
                   <BarChart2 className="h-5 w-5 text-green-500 mr-2" />
-                  <span className="text-sm font-medium text-green-900">Completion Rate</span>
+                  <span className={`${bricolage.className} text-sm font-medium text-[20px] text-green-900`}>Completion Rate</span>
                 </div>
-                <p className="mt-2 text-2xl font-bold text-green-900">
+                <p className={`${bricolage.className} mt-2 text-2xl font-bold text-green-900`}>
                   {completionRate}%
                 </p>
               </div>
               <div className="bg-purple-50 p-4 rounded-lg">
                 <div className="flex items-center">
                   <BarChart2 className="h-5 w-5 text-purple-500 mr-2" />
-                  <span className="text-sm font-medium text-purple-900">Total Habits</span>
+                  <span className={`${bricolage.className} text-[20px] text-sm font-medium text-purple-900`}>Total Habits</span>
                 </div>
-                <p className="mt-2 text-2xl font-bold text-purple-900">
-                  {progressData[0]?.total || 0}
+                <p className={`${bricolage.className} mt-2 text-2xl font-bold text-purple-900`}>
+                  {progressData[0]?.total || 0} Habits
                 </p>
               </div>
             </div>
