@@ -10,12 +10,6 @@ import NavigationWhite from '../components/NavigationWhite';
 import { signIn } from 'next-auth/react';
 */
 import { useRouter } from 'next/navigation';
-import { Bricolage_Grotesque } from "next/font/google";
-
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
 
 function Register() {
   const router = useRouter();
@@ -73,10 +67,10 @@ function Register() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-        <h2 className={`${bricolage.className} mt-6 text-3xl font-extrabold text-gray-900 flex-cols-2 justify-center items-center`}>
+        <h2 className={`mt-6 text-3xl font-extrabold text-gray-900 flex-cols-2 justify-center items-center`}>
               <Link href="/" className="flex items-center">
                 <Activity className="h-8 w-8 text-indigo-600" />
-                <span className={`${bricolage.className} ml-2 text-xl font-bold text-gray-800`}>TrackHub</span>
+                <span className={` ml-2 text-xl font-bold text-gray-800`}>TrackHub</span>
               </Link>
               Create your account
             </h2>

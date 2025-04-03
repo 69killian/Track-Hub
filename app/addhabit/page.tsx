@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import NavigationWhite from '../components/NavigationWhite';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
+
 function HabitForm() {
   const { data: session, status } = useSession();
   const router = useRouter();
