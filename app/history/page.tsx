@@ -213,10 +213,10 @@ function History() {
               <div className="bg-purple-50 p-4 rounded-lg">
                 <div className="flex items-center">
                   <BarChart2 className="h-5 w-5 text-purple-500 mr-2" />
-                  <span className={`${bricolage.className} text-[20px] text-sm font-medium text-purple-900`}>Total Habits you made</span>
+                  <span className={`${bricolage.className} text-[20px] text-sm font-medium text-purple-900`}>Total Habits</span>
                 </div>
                 <p className={`${bricolage.className} mt-2 text-2xl font-bold text-purple-900`}>
-                  {progressData[0]?.total || 0} Habits
+                  {habits.length} Habits
                 </p>
               </div>
             </div>
