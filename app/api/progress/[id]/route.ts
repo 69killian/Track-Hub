@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { db } from "@/app/lib/prisma";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
     try {
         const { id } = params;
         const todayStart = new Date();
