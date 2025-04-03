@@ -1,10 +1,15 @@
 "use client";
 import React, { useState } from 'react';
+/*
 import { useRouter } from 'next/navigation';
-import { LogIn, Github, Activity } from 'lucide-react';
+*/
+import { LogIn,  Activity } from 'lucide-react';
+/*
+import {Github} from 'lucide-react';
+*/
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import NavigationWhite from '../components/NavigationWhite';
-import { signIn } from 'next-auth/react';
 import { Bricolage_Grotesque } from "next/font/google";
 
 const bricolage = Bricolage_Grotesque({
@@ -14,7 +19,9 @@ const bricolage = Bricolage_Grotesque({
 
 
 function Login() {
+  /*
   const router = useRouter();
+  */
 
   const [formData, setFormData] = useState({
     email: '',
@@ -23,6 +30,7 @@ function Login() {
   const [error, setError] = useState('');
   const [consent, setConsent] = useState(false); // GDPR consent
 
+  /*
   const handleGitHubLogin = async () => {
     const response = await signIn('github');
     
@@ -30,6 +38,7 @@ function Login() {
       router.push('/history');
     }
   };
+  */
 
   const handleSubmit = async (e: React.FormEvent) => {
     // Block the refresh of the page
@@ -134,7 +143,7 @@ function Login() {
               </button>
             </div>
 
-            {/* GitHub login */}
+            {/* GitHub login NOT available
             <div className="mt-4 text-center">
               <button
                 type="button"
@@ -147,6 +156,7 @@ function Login() {
                 Connect with GitHub
               </button>
             </div>
+            */}
           </form>
         </div>
       </div>

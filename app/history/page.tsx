@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Calendar, BarChart2 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useSession } from 'next-auth/react';
@@ -38,14 +38,7 @@ function History() {
     }
   }, [status, router]);
 
-  useEffect(() => {
-    if (session?.user?.id) {
-      fetchProgressData();
-      fetchHabits()
-    }
-  }, [session]);
-
-  const fetchHabits = async () => {
+  const fetchHabits = useCallback(async () => {
     if (!session?.user?.id) {
       console.error("User not authenticated");
       return;
@@ -69,17 +62,16 @@ function History() {
     } catch (error) {
       console.error("Network error:", error);
     }
-  };
+  }, [session?.user?.id]);
 
-  const fetchProgressData = async () => {
+  const fetchProgressData = useCallback(async () => {
     const startDate = new Date();
     const endDate = new Date();
-    startDate.setDate(1); // first day of the month
-    endDate.setMonth(endDate.getMonth() + 1); // last day
+    startDate.setDate(1); // premier jour du mois
+    endDate.setMonth(endDate.getMonth() + 1); // dernier jour du mois
     endDate.setDate(0);
   
     try {
-      
       const response = await fetch(`/api/progresses/${session?.user?.id}`);
       if (!response.ok) throw new Error('Failed to fetch progress');
   
@@ -99,20 +91,25 @@ function History() {
         dailyProgress.push({
           date: dateStr,
           completed: dayProgress.filter((p: { completed: boolean }) => p.completed).length,
-          total: data.length // Assuming the total is based on the length of the data,
+          total: data.length // Assuming the total is based on the length of the data
         });
   
         currentDate.setDate(currentDate.getDate() + 1);
       }
-
-      
   
       setProgressData(dailyProgress);
-  
     } catch (error) {
       console.error('Error fetching progress:', error);
     }
-  };
+  }, [session?.user?.id]);
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      fetchProgressData();
+      fetchHabits();
+    }
+  }, [session, fetchProgressData, fetchHabits]);
+
   
 
   // Calcul du nombre total de jours où des progrès ont été réalisés

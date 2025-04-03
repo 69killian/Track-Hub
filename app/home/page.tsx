@@ -98,7 +98,13 @@ function HeroVideoDialogDemo() {
 }
 
 
-function FeatureCard({ icon, title, description }) {
+interface FeatureCardProps {
+  icon: React.ReactNode;  
+  title: string;
+  description: string;
+}
+
+function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
     <div className="pt-6">
       <div className="flow-root bg-white rounded-lg px-6 pb-8">
@@ -115,6 +121,7 @@ function FeatureCard({ icon, title, description }) {
     </div>
   );
 }
+
 
 function ReviewMarquee() {
   return (

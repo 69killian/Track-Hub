@@ -31,6 +31,6 @@ export async function POST(req: Request) {
         return NextResponse.json({ message: "Progress successfully created", progress: newProgress }, { status: 201 });
     } catch (error) {
         console.error("Error creating progress:", error);
-        return NextResponse.json({ message: "Internal Server Error", error: error.message }, { status: 500 });
+        return NextResponse.json({ message: "Internal Server Error", error: "Unknown error" }, { status: 500 });
     }
 }
