@@ -77,7 +77,7 @@ function Dashboard() {
     console.log("Fetching progress for user:", session?.user?.id); // ✅ Debug
 
     try {
-        const response = await fetch(`/api/progresses/${session?.user?.id}`);
+        const response = await fetch(`/api/progress/${session?.user?.id}`);
         if (!response.ok) throw new Error("Failed to fetch progress");
 
         const data = await response.json();

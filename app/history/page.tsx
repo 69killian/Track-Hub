@@ -18,8 +18,17 @@ interface HabitProgress {
   total: number;
 }
 
+interface Habit {
+  id: string;
+  name: string;
+  frequency: string;
+  goal: string;
+  streak: number;
+}
+
 function History() {
   const [progressData, setProgressData] = useState<HabitProgress[]>([]);
+  const [habits, setHabits] = useState<Habit[]>([]);
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -32,8 +41,35 @@ function History() {
   useEffect(() => {
     if (session?.user?.id) {
       fetchProgressData();
+      fetchHabits()
     }
   }, [session]);
+
+  const fetchHabits = async () => {
+    if (!session?.user?.id) {
+      console.error("User not authenticated");
+      return;
+    }
+  
+    try {
+      const response = await fetch(`/api/dashboard/${session?.user?.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+  
+      if (!response.ok) {
+        console.error('Error fetching habits:', await response.text());
+        return;
+      }
+  
+      const data = await response.json();
+      setHabits(data); // ✅ Stocke les habitudes dans ton état
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
 
   const fetchProgressData = async () => {
     const startDate = new Date();
@@ -63,11 +99,13 @@ function History() {
         dailyProgress.push({
           date: dateStr,
           completed: dayProgress.filter((p: { completed: boolean }) => p.completed).length,
-          total: data.length // Assuming the total is based on the length of the data
+          total: data.length // Assuming the total is based on the length of the data,
         });
   
         currentDate.setDate(currentDate.getDate() + 1);
       }
+
+      
   
       setProgressData(dailyProgress);
   
@@ -85,7 +123,7 @@ function History() {
 
   // Calcul du taux de complétion
   const completionRate = Math.round(
-    (totalProgress / (totalDays * (progressData[0]?.total || 1))) * 100
+    (totalProgress / (totalDays * (progressData[0]?.completed || 1))) * 100
   );
 
   const calculateStreak = () => {
@@ -175,7 +213,7 @@ function History() {
               <div className="bg-purple-50 p-4 rounded-lg">
                 <div className="flex items-center">
                   <BarChart2 className="h-5 w-5 text-purple-500 mr-2" />
-                  <span className={`${bricolage.className} text-[20px] text-sm font-medium text-purple-900`}>Total Habits</span>
+                  <span className={`${bricolage.className} text-[20px] text-sm font-medium text-purple-900`}>Total Habits you made</span>
                 </div>
                 <p className={`${bricolage.className} mt-2 text-2xl font-bold text-purple-900`}>
                   {progressData[0]?.total || 0} Habits
