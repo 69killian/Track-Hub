@@ -4,12 +4,6 @@ import { useSession} from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { BarChart2, CheckCircle, XCircle } from 'lucide-react';
 import NavigationWhite from '../components/NavigationWhite';
-import { Bricolage_Grotesque } from "next/font/google";
-
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
 
 interface Habit {
   id: string;
@@ -162,7 +156,7 @@ function Dashboard() {
       <div className="min-h-screen bg-gray-50 mx-auto px-4 sm:px-6 lg:px-8 py-30">
         <div className="md:flex md:items-center md:justify-between mb-8">
           <div className="flex-1 min-w-0">
-            <h2 className={`text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate ${bricolage.className}`}>
+            <h2 className={`text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate`}>
               {session?.user?.username}&apos;s Habits Dashboard
             </h2>
           </div>
@@ -189,7 +183,7 @@ function Dashboard() {
               )}
             </button>
             <div>
-              <h3 className={`text-lg font-medium text-gray-900 ${bricolage.className}`}>{habit.name}</h3>
+              <h3 className={`text-lg font-medium text-gray-900`}>{habit.name}</h3>
               <p className="text-sm text-gray-500">
                 {habit.frequency} • Goal : {habit.goal}
               </p>
@@ -198,7 +192,7 @@ function Dashboard() {
           <div className="flex items-center">
             <div className="flex items-center bg-indigo-100 px-3 py-1 rounded-full">
               <BarChart2 className="h-4 w-4 text-indigo-500 mr-1" />
-              <span className={`text-sm font-medium text-indigo-800 ${bricolage.className}`}>
+              <span className={`text-sm font-medium text-indigo-800`}>
                 Completed : {todayProgress[habit.id] || 0} times
               </span>
             </div>

@@ -4,12 +4,7 @@ import Link from 'next/link';
 import { Activity, Target, TrendingUp, Star } from 'lucide-react';
 import Marquee from "react-fast-marquee";
 import HeroVideoDialog from "@/components/magicui/hero-video-dialog";
-import { Bricolage_Grotesque } from "next/font/google";
 
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
 
 const reviews = [
   {
@@ -39,15 +34,15 @@ function Home() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 ">
       <div className="text-center">
         <div className="mb-[50px] mt-[10px]">
-        <h1 className={`text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-8xl ${bricolage.className}`}>
+        <h1 className={`text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-8xl`}>
       <span className="block text-white">Track Your Habits,</span>
       <span className="block text-violet-900">Achieve Your Goals</span>
     </h1>
-        <p className="mt-3 max-w-md mx-auto text-base text-white sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+        <p className="mt-3 font-bricolage max-w-md mx-auto text-base text-white sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
           Build better habits, track your progress, and achieve your personal goals with our simple but powerful habit tracking system.
         </p>
         <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-          <div className={`${bricolage.className} text-[20px]`}>
+          <div className={` text-[20px]`}>
             <Link
               href="/register"
               className="tracking-tight font-extrabold relative z-10 block w-full py-4 px-20 bg-gray-900 hover:bg-gray-900/90 text-center transition-all duration-200 rounded-[10px] p-1 shadow-md hover:shadow-lg shadow-[#101010]/50 border-t-4 border-indigo-300/10"
@@ -114,8 +109,8 @@ function FeatureCard({ icon, title, description }: FeatureCardProps) {
               {icon}
             </span>
           </div>
-          <h3 className={`${bricolage.className} mt-8 text-lg font-bold text-[30px] text-gray-900 tracking-tight`}>{title}</h3>
-          <p className={`${bricolage.className} mt-5 text-base text-gray-500 text-[18px]`}>{description}</p>
+          <h3 className={` mt-8 text-lg font-bold text-[30px] text-gray-900 tracking-tight`}>{title}</h3>
+          <p className={` mt-5 text-base text-gray-500 text-[18px]`}>{description}</p>
         </div>
       </div>
     </div>
@@ -126,7 +121,7 @@ function FeatureCard({ icon, title, description }: FeatureCardProps) {
 function ReviewMarquee() {
   return (
     <div className="py-50">
-      <h1 className={`${bricolage.className} text-4xl tracking-tight font-semibold text-gray-900 sm:text-5xl md:text-7xl`}>
+      <h1 className={` text-4xl tracking-tight font-semibold text-gray-900 sm:text-5xl md:text-7xl`}>
         <span className="block text-white">This is What they say</span>
         <span className="block text-violet-600 pb-20">About TrackHub</span>
       </h1>
@@ -141,8 +136,8 @@ function ReviewMarquee() {
                 <Star key={i} className="h-5 w-5 text-indigo-600" />
               ))}
             </div>
-            <p className={`text-gray-700 italic text-[20px] ${bricolage.className}`}>&quot;{review.review}&quot;</p>
-            <h4 className={`${bricolage.className} mt-4 font-semibold text-gray-900 text-[30px]`}>- {review.name}</h4>
+            <p className={`text-gray-700 italic text-[20px] font-bricolage`}>&quot;{review.review}&quot;</p>
+            <h4 className={` mt-4 font-semibold text-gray-900 text-[30px]`}>- {review.name}</h4>
           </div>
         ))}
       </Marquee>

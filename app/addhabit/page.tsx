@@ -5,13 +5,6 @@ import { useRouter } from 'next/navigation';
 import NavigationWhite from '../components/NavigationWhite';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
-import { Bricolage_Grotesque } from "next/font/google";
-
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
-
 function HabitForm() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -83,7 +76,7 @@ function HabitForm() {
      </div>
     <div className="h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
       <div className="bg-white shadow sm:rounded-lg p-6 w-full max-w-lg">
-        <h2 className={`text-2xl font-bold text-gray-900 mb-6 text-center ${bricolage.className}`}>Create New Habit for {session?.user?.username}</h2>
+        <h2 className={`text-2xl font-bold text-gray-900 mb-6 text-center`}>Create New Habit for {session?.user?.username}</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
@@ -138,7 +131,7 @@ function HabitForm() {
           <div className="flex justify-center">
             <button
               type="submit"
-              className={`${bricolage.className} cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+              className={` cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
             >
               <Plus className="h-5 w-5 mr-2" />
               Create Habit

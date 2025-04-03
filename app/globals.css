@@ -2,6 +2,25 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+/* globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;700&display=swap');
+
+
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('/fonts/BricolageGrotesque-Regular.woff2') format('woff2'),
+       url('/fonts/BricolageGrotesque-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('/fonts/BricolageGrotesque-Bold.woff2') format('woff2'),
+       url('/fonts/BricolageGrotesque-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: bold;
+}
 
 @theme inline {
   --color-background: var(--background);
