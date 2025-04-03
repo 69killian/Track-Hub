@@ -1,9 +1,14 @@
 "use client"
 import React, { useState } from 'react';
-import { UserPlus, Activity, Github } from 'lucide-react';
+import { UserPlus, Activity} from 'lucide-react';
+/*
+import {Github} from 'lucide-react';
+*/
 import Link from 'next/link';
 import NavigationWhite from '../components/NavigationWhite';
+/*
 import { signIn } from 'next-auth/react';
+*/
 import { useRouter } from 'next/navigation';
 import { Bricolage_Grotesque } from "next/font/google";
 
@@ -53,9 +58,11 @@ function Register() {
     
   };
 
+  /* github
   const handleGitHubRegister = async () => {
     await signIn('github', { callbackUrl: '/register' });
   };
+  */
   
 
   return (
@@ -175,7 +182,7 @@ function Register() {
             </button>
           </div>
 
-          {/* GitHub login */}
+          {/* GitHub login NOT available
           <div className="mt-4 text-center">
             <button
               type="button"
@@ -188,6 +195,7 @@ function Register() {
               Register with GitHub
             </button>
           </div>
+          */}
         </form>
       </div>
     </div>

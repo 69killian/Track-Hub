@@ -39,6 +39,6 @@ export async function POST(req: Request, { params }: { params: { habitId: string
         return NextResponse.json({ message: "Streak updated", habit: updatedHabit }, { status: 200 });
     } catch (error) {
         console.error("Error updating streak:", error);
-        return NextResponse.json({ message: "Something went wrong", error: error.message }, { status: 500 });
+        return NextResponse.json({ message: "Something went wrong", error: "unknown error" }, { status: 500 });
     }
 }

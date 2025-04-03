@@ -7,8 +7,6 @@ import { compare } from "bcryptjs";
 
 const clientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
 const clientSecret = process.env.NEXT_PUBLIC_GITHUB_CLIENT_SECRET;
-// eslint-disable-next-line
-const redirectUri = process.env.NEXT_PUBLIC_GITHUB_REDIRECT_URI;
 
 if (!clientId || !clientSecret) {
     throw new Error("Missing clientId or clientSecret");
@@ -28,7 +26,6 @@ export const authOptions: NextAuthOptions = {
             name: "github",
             clientId: clientId,
             clientSecret: clientSecret,
-            redirectUri: redirectUri,
             async profile(profile) {
                 // Créer un utilisateur si l'utilisateur GitHub n'existe pas dans la base de données
                 const existingUser = await db.user.findUnique({
@@ -68,8 +65,12 @@ export const authOptions: NextAuthOptions = {
                 if (!existingUser) {
                     return null;
                 }
+                if (!existingUser.password) {
+                    throw new Error("User password is missing or null");
+                }
+                
+                const passwordMatch = await compare(credentials.password, existingUser.password);                
 
-                const passwordMatch = await compare(credentials.password, existingUser.password);
 
                 if (!passwordMatch) {
                     return null;

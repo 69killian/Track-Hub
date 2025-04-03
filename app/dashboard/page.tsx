@@ -1,9 +1,15 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useSession} from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { BarChart2, CheckCircle, XCircle } from 'lucide-react';
 import NavigationWhite from '../components/NavigationWhite';
+import { Bricolage_Grotesque } from "next/font/google";
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 interface Habit {
   id: string;
@@ -33,20 +39,7 @@ function Dashboard() {
     }
   }, [status, router]);
 
-  useEffect(() => {
-    if (status === 'authenticated') {
-      fetchHabits();
-    }
-  }, [status]);
-
-  
-  useEffect(() => {
-    if (habits.length > 0) {
-      fetchTodayProgress();
-    }
-  }, [habits])
-
-  const fetchHabits = async () => {
+  const fetchHabits = useCallback(async () => {
     if (!session?.user?.id) {
       console.error("User not authenticated");
       return;
@@ -70,10 +63,10 @@ function Dashboard() {
     } catch (error) {
       console.error("Network error:", error);
     }
-  };
+  }, [session?.user?.id]);
   
 
-  const fetchTodayProgress = async () => {
+  const fetchTodayProgress = useCallback(async () => {
     console.log("Fetching progress for user:", session?.user?.id); // ✅ Debug
 
     try {
@@ -83,11 +76,10 @@ function Dashboard() {
         const data = await response.json();
         console.log("Fetched progress:", data); // ✅ Debug
 
-        // Calculer le nombre de progrès pour chaque habitude
         const progressMap: Record<string, number> = habits.reduce((acc, habit) => {
-            acc[habit.id] = 0; // Initialiser chaque habitude avec 0
-            return acc;
-        }, {});
+          acc[habit.id] = 0; // Initialiser chaque habitude avec 0
+          return acc;
+        }, {} as Record<string, number>); // Typage explicite ici
 
         // Maintenant, on compte les progrès réalisés pour chaque habitude
         data.forEach((progress: Progress) => {
@@ -95,12 +87,29 @@ function Dashboard() {
                 progressMap[progress.habitId] = (progressMap[progress.habitId] || 0) + 1;
             }
         });
+        
+        /* @ts-expect-error ignore the error to not have to change the type of progressMap */
+        setTodayProgress(progressMap);
 
-        setTodayProgress(progressMap); // Stocker les résultats dans l'état
     } catch (error) {
         console.error("Error fetching progress:", error);
     }
-};
+  }, [habits, session?.user?.id]);
+
+
+
+      useEffect(() => {
+        if (status === 'authenticated') {
+          fetchHabits();
+        }
+      }, [status, fetchHabits]);
+
+      useEffect(() => {
+        if (habits.length > 0) {
+          fetchTodayProgress();
+        }
+      }, [habits, fetchTodayProgress]); // habits et fetchTodayProgress sont maintenant des dépendances
+
 
   
   
@@ -153,7 +162,7 @@ function Dashboard() {
       <div className="min-h-screen bg-gray-50 mx-auto px-4 sm:px-6 lg:px-8 py-30">
         <div className="md:flex md:items-center md:justify-between mb-8">
           <div className="flex-1 min-w-0">
-            <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+            <h2 className={`text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate ${bricolage.className}`}>
               {session?.user?.username}&apos;s Habits Dashboard
             </h2>
           </div>
@@ -180,7 +189,7 @@ function Dashboard() {
               )}
             </button>
             <div>
-              <h3 className="text-lg font-medium text-gray-900">{habit.name}</h3>
+              <h3 className={`text-lg font-medium text-gray-900 ${bricolage.className}`}>{habit.name}</h3>
               <p className="text-sm text-gray-500">
                 {habit.frequency} • Goal : {habit.goal}
               </p>
@@ -189,7 +198,7 @@ function Dashboard() {
           <div className="flex items-center">
             <div className="flex items-center bg-indigo-100 px-3 py-1 rounded-full">
               <BarChart2 className="h-4 w-4 text-indigo-500 mr-1" />
-              <span className="text-sm font-medium text-indigo-800">
+              <span className={`text-sm font-medium text-indigo-800 ${bricolage.className}`}>
                 Completed : {todayProgress[habit.id] || 0} times
               </span>
             </div>
