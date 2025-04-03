@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { db } from "@/app/lib/prisma";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
     try {
-        const { id } = params;
+        const { id } = await context.params;
 
         // Récupérer les habitudes de l'utilisateur, y compris les champs demandés
         const habits = await db.habit.findMany({
