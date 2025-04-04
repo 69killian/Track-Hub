@@ -2,7 +2,7 @@
 
 ![Screen](screen)
 
-#### Video Demo: <URL HERE>
+#### Video Demo: [Habit Tracking Made Easy 🌱 - TrackHub](https://youtu.be/uRczUZB7UiI)
 
 #### Live Demo: [TrackHub](https://track-hub-seven.vercel.app/)
 
