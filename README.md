@@ -1,4 +1,4 @@
-# TrackHub
+# TrackHub - Habit Tracker
 
 ![Screen](screen)
 
