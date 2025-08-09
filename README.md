@@ -1,4 +1,4 @@
-# TrackHub - Habit Tracker
+# TrackHub - Habit Tracker (cs50x final peoject)
 
 ![Screen](screen)
 
